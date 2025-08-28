@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Appearance Settings</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Graduate&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        width: 360px;
+        height: fit-content;
+        max-height: 600px;
+        margin: 0;
+        padding: 20px;
+        overflow: visible;
+        font-family: "Graduate", serif;
+        color: #e6edf3;
+        background: #0b0f14;
+        border-radius: 12px;
+        position: relative;
+        z-index: 0;
+      }
+      .setting-item {
+        margin-bottom: 16px;
+      }
+      label {
+        display: block;
+        margin-bottom: 6px;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        opacity: 0.8;
+      }
+      input,
+      select {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.1);
+        color: #fff;
+        font-family: inherit;
+        font-size: 14px;
+        box-sizing: border-box;
+        appearance: none;
+        cursor: pointer;
+      }
+      select {
+        background-image: url('data:image/svg+xml;utf8,<svg fill="white" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+        background-repeat: no-repeat;
+        background-position: right 8px center;
+        padding-right: 32px;
+        position: relative;
+        z-index: 1;
+      }
+      select:hover {
+        background-color: rgba(255, 255, 255, 0.15);
+        border-color: rgba(86, 204, 242, 0.4);
+      }
+      select:focus {
+        outline: none;
+        border-color: #56ccf2;
+        box-shadow: 0 0 0 2px rgba(86, 204, 242, 0.2);
+      }
+      select option {
+        background-color: #1a1f24;
+        color: #fff;
+        padding: 12px;
+        font-size: 14px;
+        border: none;
+        position: relative;
+        z-index: 2;
+      }
+      select option:hover {
+        background-color: rgba(86, 204, 242, 0.2);
+      }
+      select option:checked {
+        background-color: rgba(86, 204, 242, 0.3);
+      }
+      .setting-item {
+        position: relative;
+        z-index: 1;
+      }
+      select:focus option {
+        color: #fff;
+        background-color: #1a1f24;
+      }
+      select optgroup {
+        background-color: #1a1f24;
+        color: #fff;
+      }
+      select,
+      select option {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+      }
+      /* Ensure dropdowns appear on top */
+      body {
+        overflow: visible !important;
+      }
+      .setting-item {
+        overflow: visible !important;
+      }
+      input[type="color"] {
+        height: 40px;
+        padding: 2px;
+      }
+      button {
+        width: 100%;
+        padding: 12px;
+        background: #56ccf2;
+        border: none;
+        border-radius: 8px;
+        color: #0b0f14;
+        font-weight: bold;
+        cursor: pointer;
+        font-family: inherit;
+        transition: all 0.3s ease;
+        margin-top: 20px;
+      }
+      button:hover {
+        opacity: 0.9;
+        transform: translateY(-1px);
+      }
+      .nav-buttons {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+      }
+      .nav-buttons button {
+        margin-top: 0;
+      }
+      .success-message {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #22c55e;
+        color: white;
+        padding: 8px 16px;
+        border-radius: 4px;
+        display: none;
+      }
+      .file-upload {
+        position: relative;
+        width: 100%;
+      }
+      .upload-btn {
+        width: 100%;
+        padding: 10px;
+        background: rgba(86, 204, 242, 0.2);
+        border: 2px dashed rgba(86, 204, 242, 0.4);
+        border-radius: 8px;
+        color: #fff;
+        margin: 0;
+      }
+      .preview-container {
+        margin-top: 12px;
+        position: relative;
+        width: 100%;
+        border-radius: 8px;
+        overflow: hidden;
+      }
+      .preview-container img {
+        width: 100%;
+        height: auto;
+        display: block;
+        border-radius: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      class="nav-buttons"
+      style="
+        margin: -20px -20px 20px -20px;
+        padding: 10px;
+        background: rgba(0, 0, 0, 0.2);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+      "
+    >
+      <button
+        id="toBasic"
+        style="
+          margin: 0;
+          background: transparent;
+          color: #fff;
+          width: auto;
+          padding: 8px 16px;
+        "
+      >
+        Basic
+      </button>
+      <button
+        style="
+          margin: 0;
+          background: rgba(86, 204, 242, 0.2);
+          color: #56ccf2;
+          width: auto;
+          padding: 8px 16px;
+          border-bottom: 2px solid #56ccf2;
+        "
+      >
+        Appearance
+      </button>
+      <button
+        id="toQuotes"
+        style="
+          margin: 0;
+          background: transparent;
+          color: #fff;
+          width: auto;
+          padding: 8px 16px;
+        "
+      >
+        Quotes
+      </button>
+    </div>
+
+    <div class="settings-group">
+      <div class="setting-item">
+        <label>Theme</label>
+        <select id="theme">
+          <option value="dark">Dark</option>
+          <option value="light">Light</option>
+        </select>
+      </div>
+      <div class="setting-item">
+        <label>Background Image</label>
+        <select id="bgImage">
+          <option value="default">Default Background</option>
+          <option value="custom">Custom URL</option>
+          <option value="local">Upload Image</option>
+        </select>
+      </div>
+      <div class="setting-item" id="customBgUrlContainer" style="display: none">
+        <label>Custom Background URL</label>
+        <input
+          type="url"
+          id="customBgUrl"
+          placeholder="https://example.com/image.jpg"
+        />
+      </div>
+      <div class="setting-item" id="localBgContainer" style="display: none">
+        <label>Upload Background Image</label>
+        <div class="file-upload">
+          <input type="file" id="localBgFile" accept="image/*" />
+          <button type="button" class="upload-btn" id="uploadTrigger">
+            Choose Image
+          </button>
+        </div>
+        <div id="uploadPreview" class="preview-container" style="display: none">
+          <img id="imagePreview" alt="Preview" />
+          <button type="button" id="removeImage" style="background: #dc2626">
+            Remove
+          </button>
+        </div>
+      </div>
+      <div class="setting-item">
+        <label>Text Color</label>
+        <input type="color" id="textColor" value="#ffffff" />
+      </div>
+      <div class="setting-item">
+        <label>Label Color</label>
+        <input type="color" id="labelColor" value="#b0b0b0" />
+      </div>
+    </div>
+
+    <button id="saveSettings">Save Settings</button>
+    <div class="success-message" id="successMessage">
+      Settings saved successfully!
+    </div>
+    <script src="appearance.js"></script>
+  </body>
+</html>

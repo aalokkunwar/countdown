@@ -42,8 +42,10 @@ body {
 }
 
 .container {
-  display: grid;
-  grid-template-rows: auto 1fr auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   height: 100vh;
   padding: clamp(16px, 3vmin, 32px);
   backdrop-filter: blur(4px);
@@ -51,13 +53,12 @@ body {
 
 .topbar {
   display: flex;
-  align-items: center;
+  align-items: center; 
   justify-content: end;
   padding: clamp(8px, 2vmin, 14px) clamp(10px, 3vmin, 14px);
   margin: 0 clamp(4px, 1vw, 12px);
 }
 
-.topbar a,
 .topbar button {
   color: var(--fg);
   text-decoration: none;
@@ -66,12 +67,23 @@ body {
   font-size: clamp(16px, 3vw, 18px);
   cursor: pointer;
   margin-left: clamp(8px, 2vw, 10px);
-  padding: 4px;
+  padding: 8px;
+  transition: all 0.2s ease;
+  opacity: 0.7;
+  border-radius: 50%;
+}
+
+.topbar button:hover {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.1);
+  transform: rotate(30deg);
 }
 
 .clock-container {
   display: flex;
   flex-direction: column;
+  
+  justify-content:space-between;
   align-items: center;
   width: 100%;
   margin: auto;
@@ -134,7 +146,7 @@ body {
 }
 
 .footer span {
-  font-size: clamp(12px, 1.5vw, 14px);
+  font-size: clamp(4px, 0.5vw, 10px);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -147,11 +159,30 @@ body {
 }
 
 body.light {
-  --bg: #000000;
-  --fg: #ffffff;
-  --muted: #b0b0b0;
-  --card: rgba(0, 0, 0, 0.85);
-  --glass: rgba(0, 0, 0, 0.9);
-  background: url("assets/bg.jpg") no-repeat center center fixed;
-  background-size: cover;
+  --bg: #ffffff;
+  --fg: #1a1a1a;
+  --muted: #666666;
+  --card: rgba(255, 255, 255, 0.85);
+  --glass: rgba(255, 255, 255, 0.9);
+}
+
+body.light .backdrop {
+  background: radial-gradient(
+      1200px 600px at 10% 10%,
+      rgba(255, 255, 255, 0.4),
+      rgba(255, 255, 255, 0.2)
+    ),
+    radial-gradient(
+      1000px 700px at 90% 80%,
+      rgba(255, 255, 255, 0.4),
+      rgba(255, 255, 255, 0.2)
+    );
+}
+
+body.light .container {
+  backdrop-filter: blur(6px) brightness(1.1);
+}
+
+body.light .unit span {
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }

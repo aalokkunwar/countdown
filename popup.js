@@ -10,10 +10,19 @@ const defaultSettings = {
   showQuotes: "no",
   customQuote: "Make today count.",
   fontFamily: "Graduate",
+  localBgData: null,
 };
 
 // Load settings when popup opens
 document.addEventListener("DOMContentLoaded", async () => {
+  // Set first tab as active by default
+  const firstTab = document.querySelector(".tab");
+  const firstContent = document.getElementById("basic");
+  if (firstTab && firstContent) {
+    firstTab.classList.add("active");
+    firstContent.classList.add("active");
+  }
+
   // Load saved settings
   const settings = await chrome.storage.sync.get(defaultSettings);
 
@@ -36,32 +45,115 @@ document.addEventListener("DOMContentLoaded", async () => {
     e.target.style.fontFamily = e.target.value;
   });
 
-  // Show/hide custom background URL field
+  // Show/hide custom background URL field and local upload field
   document.getElementById("customBgUrlContainer").style.display =
     settings.bgImage === "custom" ? "block" : "none";
+  document.getElementById("localBgContainer").style.display =
+    settings.bgImage === "local" ? "block" : "none";
 
-  // Tab switching
-  document.querySelectorAll(".tab").forEach((tab) => {
-    tab.addEventListener("click", () => {
-      // Remove active class from all tabs and contents
-      document
-        .querySelectorAll(".tab")
-        .forEach((t) => t.classList.remove("active"));
-      document
-        .querySelectorAll(".tab-content")
-        .forEach((c) => c.classList.remove("active"));
+  // Load local image preview if exists
+  if (settings.localBgData) {
+    showImagePreview(settings.localBgData);
+  }
 
-      // Add active class to clicked tab and its content
-      tab.classList.add("active");
-      document.getElementById(tab.dataset.tab).classList.add("active");
+  // Handle select animations
+  document.querySelectorAll("select").forEach((select) => {
+    // Wrap any remaining unwrapped selects
+    if (!select.parentElement.classList.contains("select-wrapper")) {
+      const wrapper = document.createElement("div");
+      wrapper.className = "select-wrapper";
+      select.parentNode.insertBefore(wrapper, select);
+      wrapper.appendChild(select);
+    }
+
+    select.addEventListener("focus", () => {
+      select.parentElement.classList.add("active");
+    });
+
+    select.addEventListener("blur", () => {
+      select.parentElement.classList.remove("active");
     });
   });
+
+  // Handle tab switching
+  const tabsContainer = document.querySelector(".tabs");
+  if (tabsContainer) {
+    tabsContainer.addEventListener("click", (event) => {
+      const clickedTab = event.target.closest(".tab");
+      if (!clickedTab) return;
+
+      // Get all tabs and contents
+      const tabs = document.querySelectorAll(".tab");
+      const contents = document.querySelectorAll(".tab-content");
+
+      // Remove active class from all tabs and contents
+      tabs.forEach((tab) => tab.classList.remove("active"));
+      contents.forEach((content) => content.classList.remove("active"));
+
+      // Add active class to clicked tab
+      clickedTab.classList.add("active");
+
+      // Show corresponding content
+      const tabId = clickedTab.getAttribute("data-tab");
+      const content = document.getElementById(tabId);
+      if (content) {
+        content.classList.add("active");
+        // Ensure content is visible
+        content.style.display = "block";
+        content.style.visibility = "visible";
+        content.style.height = "auto";
+        content.style.opacity = "1";
+      }
+    });
+  }
 
   // Background image type change handler
   document.getElementById("bgImage").addEventListener("change", (e) => {
     document.getElementById("customBgUrlContainer").style.display =
       e.target.value === "custom" ? "block" : "none";
+    document.getElementById("localBgContainer").style.display =
+      e.target.value === "local" ? "block" : "none";
   });
+
+  // File upload handling
+  const fileInput = document.getElementById("localBgFile");
+  const uploadTrigger = document.getElementById("uploadTrigger");
+  const removeBtn = document.getElementById("removeImage");
+
+  fileInput.addEventListener("change", handleFileSelect);
+  uploadTrigger.addEventListener("click", () => fileInput.click());
+  removeBtn.addEventListener("click", removeLocalImage);
+
+  function handleFileSelect(e) {
+    const file = e.target.files[0];
+    if (file && file.type.startsWith("image/")) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        showImagePreview(e.target.result);
+        // Store the image data
+        chrome.storage.local.set({
+          localBgData: e.target.result,
+        });
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  function showImagePreview(dataUrl) {
+    const preview = document.getElementById("uploadPreview");
+    const img = document.getElementById("imagePreview");
+    img.src = dataUrl;
+    preview.style.display = "block";
+  }
+
+  function removeLocalImage() {
+    const preview = document.getElementById("uploadPreview");
+    const img = document.getElementById("imagePreview");
+    preview.style.display = "none";
+    img.src = "";
+    chrome.storage.local.remove("localBgData");
+    fileInput.value = "";
+  }
 
   // Save settings
   document

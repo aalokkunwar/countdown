@@ -57,11 +57,21 @@ async function loadSettings() {
 // Apply visual settings to the page
 function applySettings(settings) {
   // Apply theme
-  document.body.classList.toggle("light", settings.theme === "light");
+  document.body.classList.remove("light", "dark");
+  document.body.classList.add(settings.theme);
 
   // Apply background image
   if (settings.bgImage === "custom" && settings.customBgUrl) {
     document.body.style.backgroundImage = `url('${settings.customBgUrl}')`;
+  } else if (settings.bgImage === "local") {
+    // Get local image data
+    chrome.storage.local.get(["localBgData"], (result) => {
+      if (result.localBgData) {
+        document.body.style.backgroundImage = `url('${result.localBgData}')`;
+      } else {
+        document.body.style.backgroundImage = "url('assets/bg.jpg')";
+      }
+    });
   } else {
     document.body.style.backgroundImage = "url('assets/bg.jpg')";
   }
@@ -94,7 +104,7 @@ function render(diff, deathDate, motto) {
   $("milliseconds").textContent = pad(diff.milliseconds); // Will show 00-99
   $("etaText").textContent = deathDate
     ? `Estimated final day: ${deathDate.toLocaleDateString()}`
-    : `Set your birthdate & expectancy in ⚙️ Settings`;
+    : `Set your birthdate & life expectancy`;
 }
 
 async function init() {
@@ -119,11 +129,6 @@ async function init() {
 
   tick();
   setInterval(tick, 16); // Run approximately every 16ms for smooth milliseconds updates
-
-  $("openOptions").addEventListener("click", (e) => {
-    e.preventDefault();
-    chrome.runtime.openOptionsPage();
-  });
 }
 
 // Listen for settings updates from popup
