@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Life Countdown</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+   
+    <link rel="stylesheet" href="newtab.css" />
+  </head>
+  <body>
+    <div class="backdrop"></div>
+
+    <main class="container">
+      <header class="topbar">
+        <div class="left">
+          <span class="dot live"></span>
+          <span class="brand">Life Countdown</span>
+        </div>
+        <nav class="right">
+          
+          <a id="openOptions" href="#" title="Settings">⚙️</a>
+        </nav>
+      </header>
+
+      <section class="clock">
+        <div class="unit"><span id="years">--</span><label>Years</label></div>
+        <div class="unit"><span id="months">--</span><label>Months</label></div>
+        <div class="unit"><span id="days">--</span><label>Days</label></div>
+        <div class="unit"><span id="hours">--</span><label>Hours</label></div>
+        <div class="unit">
+          <span id="minutes">--</span><label>Minutes</label>
+        </div>
+        <div class="unit">
+          <span id="seconds">--</span><label>Seconds</label>
+        </div>
+        <div class="unit unitmili">
+          <span id="milliseconds">--</span><label>Milliseconds</label>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <span id="etaText">Set your birthdate & expectancy in ⚙️ Settings</span>
+      </footer>
+    </main>
+
+    <script src="newtab.js"></script>
+  </body>
+</html>
