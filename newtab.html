@@ -3,9 +3,13 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Life Countdown</title>
+    <title>New Tab</title>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-   
+    <link
+      href="https://fonts.googleapis.com/css2?family=Graduate&family=Audiowide&family=Orbitron:wght@400;500&family=Syncopate&family=Major+Mono+Display&family=Chakra+Petch&family=Rajdhani:wght@500&family=Space+Grotesk&family=Exo+2&family=Goldman&family=Righteous&family=Russo+One&family=Teko&family=Share+Tech+Mono&family=Nova+Mono&family=Iceland&family=Oxanium&family=Sarpanch&family=Saira+Stencil+One&family=Michroma&family=Wallpoet&family=Bai+Jamjuree&family=Quantico&family=Infinite&family=Zen+Dots&family=Silkscreen&family=Aldrich&family=Kelly+Slab&family=Squada+One&family=Fugaz+One&family=Changa&family=Gravitas+One&family=Play&family=Black+Ops+One&family=Tomorrow&family=Nova+Square&family=Gugi&family=Unica+One&family=Megrim&family=Synth+Midnight&family=Montserrat+Subrayada&family=Mixolydian+Titan&family=Jura&family=Source+Code+Pro&family=B612+Mono&family=VT323&family=Press+Start+2P&family=IBM+Plex+Mono&family=Flow+Block&family=Mina&family=Stalinist+One&family=Ramabhadra&family=Rubik+Mono+One&family=Smooch+Sans&display=swap"
+      rel="stylesheet"
+    />
+
     <link rel="stylesheet" href="newtab.css" />
   </head>
   <body>
@@ -13,33 +17,34 @@
 
     <main class="container">
       <header class="topbar">
-        <div class="left">
-          <span class="dot live"></span>
-          <span class="brand">Life Countdown</span>
-        </div>
         <nav class="right">
-          
           <a id="openOptions" href="#" title="Settings">⚙️</a>
         </nav>
       </header>
 
-      <section class="clock">
-        <div class="unit"><span id="years">--</span><label>Years</label></div>
-        <div class="unit"><span id="months">--</span><label>Months</label></div>
-        <div class="unit"><span id="days">--</span><label>Days</label></div>
-        <div class="unit"><span id="hours">--</span><label>Hours</label></div>
-        <div class="unit">
-          <span id="minutes">--</span><label>Minutes</label>
-        </div>
-        <div class="unit">
-          <span id="seconds">--</span><label>Seconds</label>
-        </div>
-        <div class="unit unitmili">
-          <span id="milliseconds">--</span><label>Milliseconds</label>
-        </div>
+      <section class="clock-container">
+        <h2 class="time-left-text">Time Left</h2>
+        <section class="clock">
+          <div class="unit"><span id="years">--</span><label>Years</label></div>
+          <div class="unit">
+            <span id="months">--</span><label>Months</label>
+          </div>
+          <div class="unit"><span id="days">--</span><label>Days</label></div>
+          <div class="unit"><span id="hours">--</span><label>Hours</label></div>
+          <div class="unit">
+            <span id="minutes">--</span><label>Minutes</label>
+          </div>
+          <div class="unit">
+            <span id="seconds">--</span><label>Seconds</label>
+          </div>
+          <div class="unit unitmili">
+            <span id="milliseconds">--</span><label>Milliseconds</label>
+          </div>
+        </section>
       </section>
 
       <footer class="footer">
+        <span id="customQuote"></span>
         <span id="etaText">Set your birthdate & expectancy in ⚙️ Settings</span>
       </footer>
     </main>

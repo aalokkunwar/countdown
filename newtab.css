@@ -52,30 +52,11 @@ body {
 .topbar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  background: rgba(0, 0, 0, 0.3);
+  justify-content: end;
   padding: clamp(8px, 2vmin, 14px) clamp(10px, 3vmin, 14px);
-  border-radius: clamp(8px, 2vmin, 14px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(8px);
   margin: 0 clamp(4px, 1vw, 12px);
 }
-.topbar .brand {
-  font-weight: 600;
-  letter-spacing: 0.3px;
-  font-size: clamp(14px, 2.5vw, 16px);
-  white-space: nowrap;
-}
-.topbar .dot {
-  width: clamp(6px, 1.5vw, 8px);
-  height: clamp(6px, 1.5vw, 8px);
-  border-radius: 50%;
-  display: inline-block;
-  margin-right: clamp(6px, 1.5vw, 8px);
-  background: #22c55e;
-  box-shadow: 0 0 10px #22c55e;
-}
+
 .topbar a,
 .topbar button {
   color: var(--fg);
@@ -88,12 +69,29 @@ body {
   padding: 4px;
 }
 
+.clock-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin: auto;
+}
+
+.time-left-text {
+  font-size: clamp(18px, 3vw, 24px);
+  font-weight: 500;
+  color: var(--fg);
+  margin: 0 0 clamp(8px, 2vh, 16px) 0;
+  text-align: center;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  opacity: 0.9;
+}
+
 .clock {
   display: grid;
-
   grid-template-columns: repeat(auto-fit, minmax(min(100px, 100%), 1fr));
-  gap: clamp(4px, 1vmin, 8px);
-  margin: auto;
+  gap: clamp(6px, 1.5vmin, 12px);
   padding: 0 clamp(8px, 2vw, 24px);
   max-width: 1400px;
   width: 100%;
@@ -128,11 +126,24 @@ body {
 .footer {
   text-align: center;
   color: var(--muted);
-  font-size: clamp(12px, 2vw, 14px);
   padding: clamp(8px, 2vw, 16px);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+}
+
+.footer span {
+  font-size: clamp(12px, 1.5vw, 14px);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+#customQuote {
+  font-style: italic;
+  opacity: 0.9;
 }
 
 body.light {

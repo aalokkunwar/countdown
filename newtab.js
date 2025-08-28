@@ -41,10 +41,47 @@ async function loadSettings() {
         expectancy: 80,
         motto: "Make today count.",
         theme: "dark",
+        bgImage: "default",
+        customBgUrl: "",
+        textColor: "#ffffff",
+        labelColor: "#b0b0b0",
+        showQuotes: "no",
+        customQuote: "Make today count.",
+        fontFamily: "Graduate",
       },
       resolve
     );
   });
+}
+
+// Apply visual settings to the page
+function applySettings(settings) {
+  // Apply theme
+  document.body.classList.toggle("light", settings.theme === "light");
+
+  // Apply background image
+  if (settings.bgImage === "custom" && settings.customBgUrl) {
+    document.body.style.backgroundImage = `url('${settings.customBgUrl}')`;
+  } else {
+    document.body.style.backgroundImage = "url('assets/bg.jpg')";
+  }
+
+  // Apply text colors
+  document.documentElement.style.setProperty("--fg", settings.textColor);
+  document.documentElement.style.setProperty("--muted", settings.labelColor);
+
+  // Apply font family
+  document.documentElement.style.setProperty(
+    "--font-family",
+    settings.fontFamily || "Graduate"
+  );
+  document.body.style.fontFamily = `var(--font-family), serif`;
+
+  // Apply quote if enabled
+  const quoteText = settings.showQuotes === "yes" ? settings.customQuote : "";
+  if ($("customQuote")) {
+    $("customQuote").textContent = quoteText;
+  }
 }
 
 function render(diff, deathDate, motto) {
@@ -61,21 +98,23 @@ function render(diff, deathDate, motto) {
 }
 
 async function init() {
-  const { birthdate, expectancy, motto, theme } = await loadSettings();
-  document.body.classList.toggle("light", theme === "light");
+  const settings = await loadSettings();
+  applySettings(settings);
 
   let deathDate = null;
-  if (birthdate) {
-    const b = new Date(birthdate);
+  if (settings.birthdate) {
+    const b = new Date(settings.birthdate);
     deathDate = new Date(b);
-    deathDate.setFullYear(deathDate.getFullYear() + Number(expectancy || 80));
+    deathDate.setFullYear(
+      deathDate.getFullYear() + Number(settings.expectancy || 80)
+    );
   }
 
   function tick() {
     const now = new Date();
     const ms = deathDate ? deathDate - now : 0;
     const diff = diffBreakdown(ms);
-    render(diff, deathDate, motto);
+    render(diff, deathDate, settings.customQuote);
   }
 
   tick();
@@ -86,5 +125,12 @@ async function init() {
     chrome.runtime.openOptionsPage();
   });
 }
+
+// Listen for settings updates from popup
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.type === "SETTINGS_UPDATED") {
+    init(); // Reinitialize everything with new settings
+  }
+});
 
 init();

@@ -8,9 +8,17 @@
     "48": "icons/logo48.png",
     "128": "icons/logo128.png"
   },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/logo16.png",
+      "48": "icons/logo48.png",
+      "128": "icons/logo128.png"
+    }
+  },
   "chrome_url_overrides": {
     "newtab": "newtab.html"
   },
-  "options_page": "options.html",
-  "permissions": ["storage"]
+  "permissions": ["storage", "tabs"],
+  "host_permissions": ["<all_urls>"]
 }
