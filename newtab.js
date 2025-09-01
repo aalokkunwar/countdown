@@ -38,7 +38,7 @@ async function loadSettings() {
     chrome.storage.sync.get(
       {
         birthdate: "",
-        expectancy: 80,
+        expectancy: "",
         motto: "Make today count.",
         theme: "dark",
         bgImage: "default",
@@ -97,7 +97,7 @@ function applySettings(settings) {
 function render(diff, deathDate, motto) {
   $("years").textContent = pad(diff.years);
   $("months").textContent = pad(diff.months);
-  $("days").textContent = diff.days;
+  $("days").textContent = pad(diff.days);
   $("hours").textContent = pad(diff.hours);
   $("minutes").textContent = pad(diff.minutes);
   $("seconds").textContent = pad(diff.seconds);
@@ -112,12 +112,9 @@ async function init() {
   applySettings(settings);
 
   let deathDate = null;
-  if (settings.birthdate) {
-    const b = new Date(settings.birthdate);
-    deathDate = new Date(b);
-    deathDate.setFullYear(
-      deathDate.getFullYear() + Number(settings.expectancy || 80)
-    );
+  if (settings.expectancy) {
+    // Now expectancy is stored as a date string
+    deathDate = new Date(settings.expectancy);
   }
 
   function tick() {
@@ -130,6 +127,7 @@ async function init() {
   tick();
   setInterval(tick, 16); // Run approximately every 16ms for smooth milliseconds updates
 }
+
 
 // Listen for settings updates from popup
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {

@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Load only basic settings
   const settings = await chrome.storage.sync.get({
     birthdate: "",
-    expectancy: 80,
+    expectancy: "",
     fontFamily: "Graduate",
   });
 
@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       const newSettings = {
         ...existingSettings,
         birthdate: document.getElementById("birthdate").value,
-        expectancy: parseInt(document.getElementById("expectancy").value) || 80,
+        expectancy: document.getElementById("expectancy").value,
         fontFamily: document.getElementById("fontFamily").value,
       };
 
@@ -36,13 +36,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         successMessage.style.display = "none";
       }, 1500);
 
-      // Notify the active tab to update
+      // Reload the active tab so new settings apply immediately
       const [tab] = await chrome.tabs.query({
         active: true,
         currentWindow: true,
       });
       if (tab) {
-        chrome.tabs.sendMessage(tab.id, { type: "SETTINGS_UPDATED" });
+        chrome.tabs.reload(tab.id);
       }
     });
 
